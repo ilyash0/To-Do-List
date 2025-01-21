@@ -29,9 +29,7 @@ namespace To_Do_List
             UpdateListToDo();
         }
 
-
-
-        private void UpdateListToDo()
+        public void UpdateListToDo()
         {
             listToDo.ItemsSource = null;
             listToDo.ItemsSource = ToDoList;
@@ -39,15 +37,15 @@ namespace To_Do_List
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
-            AddTaskWindow addTaskWindow = new(){Owner = this};
-            addTaskWindow.ShowDialog();
+            AddTaskWindow addTaskWindow = new() { Owner = this };
+            addTaskWindow.Show();
 
             UpdateListToDo();
         }
 
         private void ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
-            ToDoList.Remove(listToDo.SelectedItem as ToDo);
+            ToDoList.Remove((ToDo)listToDo.SelectedItem);
 
             UpdateListToDo();
         }

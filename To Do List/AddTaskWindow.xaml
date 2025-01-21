@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:To_Do_List"
         mc:Ignorable="d"
-        Title="Список дел"
+        Title="Добавление нового дела"
         Height="450"
         Width="400"
         Background="#FFFDFAF1">

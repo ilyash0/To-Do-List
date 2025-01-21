@@ -22,11 +22,22 @@ namespace To_Do_List
         public AddTaskWindow()
         {
             InitializeComponent();
+
+            dateToDo.SelectedDate = new DateTime(2024, 1, 10);
+            descriptionToDo.Text = "Нет описания";
         }
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
+            ToDo task = new ToDo(
+                titleToDo.Text,
+                dateToDo.SelectedDate.Value,
+                descriptionToDo.Text
+            );
+            ((MainWindow)Owner).ToDoList.Add(task);
 
+            ((MainWindow)Owner).UpdateListToDo();
+            this.Close();
         }
 
 
