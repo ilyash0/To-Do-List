@@ -11,7 +11,13 @@ namespace To_Do_List
         private string _name;
         private DateTime _date;
         private string _description;
+        private bool _doing;
 
+        public bool Doing
+        {
+            get => _doing;
+            set => _doing = value;
+        }
         public string Name
         {
             get => _name;
@@ -19,20 +25,23 @@ namespace To_Do_List
         }
         public DateTime Date
         {
-            get => _date; 
+            get => _date;
             set => _date = value;
         }
         public string Description
         {
-            get => _description; 
-            set => _description = value; 
+            get => _description;
+            set => _description = value;
         }
+
+
 
         public ToDo()
         {
             _name = null;
             _date = DateTime.Now;
             _description = "Нет описания";
+            _doing = false;
         }
 
         public ToDo(string name, DateTime date, string description)
@@ -40,6 +49,7 @@ namespace To_Do_List
             Name = name;
             Date = date;
             Description = description;
+            Doing = false;
         }
     }
 }

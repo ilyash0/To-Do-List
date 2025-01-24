@@ -14,17 +14,15 @@ namespace To_Do_List
 {
     public partial class MainWindow : Window
     {
-        public List<ToDo> ToDoList { get; set; }
+        public List<ToDo> ToDoList = new();
         public MainWindow()
         {
             InitializeComponent();
+            //listToDo.ItemsSource = ToDoList;
 
-            ToDoList =
-            [
-                new ToDo("Поиграть в D&D", new DateTime(2024, 1, 20), "Dangeons And Dragons"),
-                new ToDo("Тест задача 2", new DateTime(1970, 1, 1), "Тест описание 2"),
-                new ToDo("Тест задача 3", new DateTime(1970, 1, 1), "тест описание 3")
-            ];
+            ToDoList.Add(new ToDo("Тест задача 1", new DateTime(1970, 1, 1), "Тест описание 1"));
+            ToDoList.Add(new ToDo("Тест задача 2", new DateTime(1970, 1, 1), "Тест описание 2"));
+            ToDoList.Add(new ToDo("Тест задача 3", new DateTime(1970, 1, 1), "Тест описание 3"));
 
             UpdateListToDo();
         }
@@ -48,6 +46,16 @@ namespace To_Do_List
             ToDoList.Remove((ToDo)listToDo.SelectedItem);
 
             UpdateListToDo();
+        }
+
+        private void CheckBoxDoing_Click(object sender, RoutedEventArgs e)
+        {
+            if (listToDo.SelectedItem == null)
+            {
+                return;
+            }
+
+            ((ToDo)listToDo.SelectedItem).Doing = !((ToDo)listToDo.SelectedItem).Doing;
         }
     }
 }
