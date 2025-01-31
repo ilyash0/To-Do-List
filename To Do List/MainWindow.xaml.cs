@@ -24,13 +24,14 @@ namespace To_Do_List
             ToDoList.Add(new ToDo("Тест задача 2", new DateTime(1970, 1, 1), "Тест описание 2"));
             ToDoList.Add(new ToDo("Тест задача 3", new DateTime(1970, 1, 1), "Тест описание 3"));
 
-            UpdateListToDo();
+            UpdateWindow();
         }
 
-        public void UpdateListToDo()
+        public void UpdateWindow()
         {
             listToDo.ItemsSource = null;
             listToDo.ItemsSource = ToDoList;
+            EndToDo();
         }
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
@@ -38,14 +39,14 @@ namespace To_Do_List
             AddTaskWindow addTaskWindow = new() { Owner = this };
             addTaskWindow.Show();
 
-            UpdateListToDo();
+            UpdateWindow();
         }
 
         private void ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
             ToDoList.Remove((ToDo)listToDo.SelectedItem);
 
-            UpdateListToDo();
+            UpdateWindow();
         }
 
         private void CheckBoxDoing_Click(object sender, RoutedEventArgs e)
@@ -56,6 +57,18 @@ namespace To_Do_List
             }
 
             ((ToDo)listToDo.SelectedItem).Doing = !((ToDo)listToDo.SelectedItem).Doing;
+            UpdateWindow();
+        }
+
+        internal void EndToDo()
+        {
+            int maxTask = ToDoList.Count;
+            int completeTask = ToDoList.Count(item => item.Doing);
+
+            progressBar.Value = completeTask;
+            progressBar.Maximum = maxTask;
+
+            textBlockProgressBar.Text = completeTask + "/" + maxTask;
         }
     }
 }

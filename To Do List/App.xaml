@@ -4,6 +4,87 @@
              xmlns:local="clr-namespace:To_Do_List"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="Button">
+            <Setter Property="Background"
+                    Value="#5EBEC4" />
+            <Setter Property="Padding"
+                    Value="5" />
+            <Setter Property="FontFamily"
+                    Value="Cascadia Mono" />
+            <Setter Property="BorderThickness"
+                    Value="0" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver"
+                         Value="True">
+                    <Setter Property="BorderThickness"
+                            Value="3" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="TextBox.BorderThickness"
+                    Value="1.5" />
+            <Setter Property="TextBox.BorderBrush"
+                    Value="#5EBEC4" />
+            <Style.Triggers>
+                <Trigger Property="IsFocused"
+                         Value="True">
+                    <Setter Property="Background"
+                            Value="#FFFFFAD6" />
+                    <Setter Property="BorderThickness"
+                            Value="2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="HeaderStyle">
+            <Setter Property="TextBlock.FontSize"
+                    Value="26" />
+            <Setter Property="TextBlock.Margin"
+                    Value="5" />
+            <Setter Property="TextBlock.Foreground"
+                    Value="#5EBEC4" />
+            <Setter Property="TextBlock.FontWeight"
+                    Value="Medium" />
+            <Setter Property="TextBlock.FontFamily"
+                    Value="Cascadia Mono" />
+        </Style>
+
+        <Style x:Key="CalendarStyle">
+            <Setter Property="Calendar.BorderThickness"
+                    Value="1.5" />
+
+            <Setter Property="Calendar.BorderBrush"
+                    Value="#5EBEC4" />
+
+            <Setter Property="Calendar.Background"
+                    Value="#FFFDFAF1" />
+
+        </Style>
+
+        <Style TargetType="ProgressBar">
+            <Setter Property="Background"
+                    Value="#FDF5DF" />
+
+            <Setter Property="Foreground"
+                    Value=" #5EBEC4" />
+
+            <Setter Property="Margin"
+                    Value="5 0" />
+
+            <Setter Property="BorderThickness"
+                    Value="1" />
+
+            <Setter Property="Minimum"
+                    Value="0" />
+
+            <Setter Property="Maximum"
+                    Value="3" />
+
+            <Setter Property="Value"
+                    Value="2" />
+
+        </Style>
     </Application.Resources>
 </Application>

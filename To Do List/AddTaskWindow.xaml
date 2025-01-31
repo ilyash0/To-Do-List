@@ -9,6 +9,27 @@
         Height="450"
         Width="400"
         Background="#FFFDFAF1">
+    
+    <Window.Resources>
+        <Style TargetType="DatePicker">
+            <Setter Property="SelectedDateFormat"
+                    Value="Long">
+            </Setter>
+            <Setter Property="BorderThickness"
+                    Value="1.5">
+            </Setter>
+            <Setter Property="BorderBrush"
+                    Value="#5EBEC4">
+            </Setter>
+            <Setter Property="Background"
+                    Value="White">
+            </Setter>
+            <Setter Property="CalendarStyle"
+                    Value="{StaticResource CalendarStyle}">
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -20,7 +41,8 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock FontSize="24"
-                   HorizontalAlignment="Center">Новое дело</TextBlock>
+                   HorizontalAlignment="Center"
+                   Style="{StaticResource HeaderStyle}">Новое дело</TextBlock>
 
         <GroupBox x:Name="groupBoxToDo"
                   Grid.Row="1"
@@ -39,21 +61,14 @@
                          AcceptsReturn="True"
                          AcceptsTab="True"
                          VerticalScrollBarVisibility="Auto"
-                         BorderBrush="Gray"
-                         BorderThickness="1"
-                         MinLines="10"
-                         MaxLines="10"
-                         MinHeight="161.6px" />
+                         MaxLines="9" />
             </StackPanel>
         </GroupBox>
 
         <Button x:Name="buttonSave"
                 Click="ButtonSave_Click"
                 Content="Сохранить дело"
-                Padding="5"
                 HorizontalAlignment="Center"
-                Background="#5EBEC4"
-                Foreground="Black"
                 Margin="5"
                 Grid.Column="2"
                 Grid.Row="2">

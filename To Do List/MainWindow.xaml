@@ -10,6 +10,35 @@
         Width="400"
         Background="#FFFDFAF1"
         Icon="/images/icon.png">
+    <Window.Resources>
+        <Style TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns"
+                    Value="False">
+            </Setter>
+            <Setter Property="CanUserDeleteRows"
+                    Value="False">
+            </Setter>
+            <Setter Property="CanUserAddRows"
+                    Value="False">
+            </Setter>
+            <Setter Property="HeadersVisibility"
+                    Value="None">
+            </Setter>
+            <Setter Property="AlternatingRowBackground"
+                    Value="White">
+            </Setter>
+            <Setter Property="RowBackground"
+                    Value="#FFFDFAF1">
+            </Setter>
+            <Setter Property="GridLinesVisibility"
+                    Value="Horizontal">
+            </Setter>
+            <Setter Property="HorizontalGridLinesBrush"
+                    Value="#5EBEC4">
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -25,22 +54,18 @@
                    Grid.Row="0"
                    Text="Список дел"
                    FontSize="26"
-                   VerticalAlignment="Center" />
+                   VerticalAlignment="Center"
+                   Style="{StaticResource HeaderStyle}" />
 
         <Button x:Name="buttonAdd"
                 Click="ButtonAdd_Click"
-                Padding="5"
-                HorizontalAlignment="Center"
-                Background="#5EBEC4"
-                Foreground="Black"
-                Margin="5"
                 Grid.Column="1"
                 Grid.Row="0">
             <Button.ToolTip>
                 <ToolTip Content="При добавлении дело появится в списке слева, и его придется выполнить" />
             </Button.ToolTip>
             <Image Source="/images/add.png"
-                   MaxWidth="15px" />
+                   MaxWidth="20px" />
 
         </Button>
 
@@ -48,12 +73,7 @@
                   Background="#FDF5DF"
                   Margin="5"
                   Grid.ColumnSpan="2"
-                  Grid.Row="1"
-                  IsReadOnly="True"
-                  CanUserAddRows="False"
-                  AutoGenerateColumns="False"
-                  GridLinesVisibility="Horizontal"
-                  HeadersVisibility="None">
+                  Grid.Row="1">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
@@ -87,5 +107,16 @@
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
         </DataGrid>
+
+        <ProgressBar x:Name="progressBar"
+                     Grid.ColumnSpan="2"
+                     Grid.Row="2" />
+
+        <TextBlock Grid.ColumnSpan="2"
+                   Grid.Row="2"
+                   Text=""
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   x:Name="textBlockProgressBar" />
     </Grid>
 </Window>

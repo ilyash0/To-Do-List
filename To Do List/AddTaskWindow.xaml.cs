@@ -36,7 +36,7 @@ namespace To_Do_List
             );
             ((MainWindow)Owner).ToDoList.Add(task);
 
-            ((MainWindow)Owner).UpdateListToDo();
+            ((MainWindow)Owner).UpdateWindow();
             this.Close();
         }
 
