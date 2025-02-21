@@ -21,8 +21,8 @@ namespace To_Do_List
             //listToDo.ItemsSource = ToDoList;
 
             ToDoList.Add(new ToDo("Тест задача 1", new DateTime(1970, 1, 1), "Тест описание 1"));
-            ToDoList.Add(new ToDo("Тест задача 2", new DateTime(1970, 1, 1), "Тест описание 2"));
-            ToDoList.Add(new ToDo("Тест задача 3", new DateTime(1970, 1, 1), "Тест описание 3"));
+            ToDoList.Add(new ToDo("Тест задача 2", new DateTime(2025, 2, 19), "Тест описание 2"));
+            ToDoList.Add(new ToDo("Тест задача 3", new DateTime(2970, 1, 1), "Тест описание 3"));
 
             UpdateWindow();
         }
@@ -44,20 +44,21 @@ namespace To_Do_List
 
         private void ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
-            ToDoList.Remove((ToDo)listToDo.SelectedItem);
+            ToDoList.Remove( ((Button)sender).DataContext as ToDo );
 
             UpdateWindow();
         }
 
         private void CheckBoxDoing_Click(object sender, RoutedEventArgs e)
         {
-            if (listToDo.SelectedItem == null)
-            {
-                return;
-            }
+            //ToDo? itemToDo = ((CheckBox)sender).DataContext as ToDo;
+            //if (itemToDo == null)
+            //{
+            //    return;
+            //}
 
-            ((ToDo)listToDo.SelectedItem).Doing = !((ToDo)listToDo.SelectedItem).Doing;
-            UpdateWindow();
+            //itemToDo.Doing = !itemToDo.Doing;
+            EndToDo();
         }
 
         internal void EndToDo()

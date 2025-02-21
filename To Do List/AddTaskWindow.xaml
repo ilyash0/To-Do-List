@@ -9,7 +9,7 @@
         Height="450"
         Width="400"
         Background="#FFFDFAF1">
-    
+
     <Window.Resources>
         <Style TargetType="DatePicker">
             <Setter Property="SelectedDateFormat"

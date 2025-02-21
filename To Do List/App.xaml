@@ -4,6 +4,32 @@
              xmlns:local="clr-namespace:To_Do_List"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <local:DateTimeLessDateConverter x:Key="LessDayConverter" />
+        <local:DateTimeUpOneDateConverter x:Key="UpOneDayConverter" />
+        <local:DateTimeNowDateConverter x:Key="NowDayConverter" />
+
+        <Style x:Key="DataColor">
+            <Setter Property="TextBlock.Foreground"
+                    Value="#FF71C52F" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Date, Converter={StaticResource LessDayConverter}}"
+                             Value="True">
+                    <Setter Property="TextBlock.Foreground"
+                            Value="#FF0000"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Date, Converter={StaticResource NowDayConverter}}"
+                             Value="True">
+                    <Setter Property="TextBlock.Foreground"
+                            Value="#FFEA6A20"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Date, Converter={StaticResource UpOneDayConverter}}"
+                             Value="True">
+                    <Setter Property="TextBlock.Foreground"
+                            Value="#DAA520"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <Style TargetType="Button">
             <Setter Property="Background"
                     Value="#5EBEC4" />
@@ -86,5 +112,28 @@
                     Value="2" />
 
         </Style>
+
+        <Style x:Key="StrikethroughText">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=CheckBoxDoing, Path=IsChecked}"
+                             Value="True">
+                    <Setter Property="TextBlock.TextDecorations"
+                            Value="Strikethrough" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="DatePickerTextBox">
+            <Style.Triggers>
+                <Trigger Property="Control.IsFocused"
+                         Value="True">
+                    <Setter Property="Background"
+                            Value="#FFFFFAD6"></Setter>
+                    <Setter Property="BorderThickness"
+                            Value="2"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </Application.Resources>
 </Application>
