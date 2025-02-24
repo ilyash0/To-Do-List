@@ -19,15 +19,16 @@ namespace To_Do_List
     /// </summary>
     public partial class AddTaskWindow : Window
     {
+        public static readonly RoutedCommand AddToDoCommand = new RoutedCommand();
         public AddTaskWindow()
         {
             InitializeComponent();
 
-            dateToDo.SelectedDate = new DateTime(2024, 1, 10);
+            dateToDo.SelectedDate = DateTime.Now.Date;
             descriptionToDo.Text = "Нет описания";
         }
 
-        private void ButtonSave_Click(object sender, RoutedEventArgs e)
+        private void SaveTask(object sender, ExecutedRoutedEventArgs e)
         {
             ToDo task = new ToDo(
                 titleToDo.Text,

@@ -29,11 +29,21 @@
             </Setter>
         </Style>
     </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:AddTaskWindow.AddToDoCommand}"
+                        Executed="SaveTask" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Return"
+                    Command="{x:Static local:AddTaskWindow.AddToDoCommand}" />
+    </Window.InputBindings>
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="
+                    auto"></RowDefinition>
+            <RowDefinition Height="1*">
+            </RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -66,7 +76,7 @@
         </GroupBox>
 
         <Button x:Name="buttonSave"
-                Click="ButtonSave_Click"
+                Command="{x:Static local:AddTaskWindow.AddToDoCommand}"
                 Content="Сохранить дело"
                 HorizontalAlignment="Center"
                 Margin="5"

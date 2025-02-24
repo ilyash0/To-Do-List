@@ -11,7 +11,6 @@
         Background="#FFFDFAF1"
         Icon="/images/icon.png">
     <Window.Resources>
-        
 
         <Style TargetType="DataGrid">
             <Setter Property="AutoGenerateColumns"
@@ -40,6 +39,14 @@
             </Setter>
         </Style>
     </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.New"
+                        Executed="OpenAddTaskWindow" />
+        <CommandBinding Command="ApplicationCommands.Delete"
+                        Executed="DeleteTask_Executed" />
+        <CommandBinding Command="ApplicationCommands.Save"
+                        Executed="SaveTxtFile" />
+    </Window.CommandBindings>
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -49,7 +56,8 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="9*" />
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Column="0"
@@ -59,22 +67,31 @@
                    VerticalAlignment="Center"
                    Style="{StaticResource HeaderStyle}" />
 
-        <Button x:Name="buttonAdd"
-                Click="ButtonAdd_Click"
+        <Button x:Name="buttonSave"
+                Click="SaveTxtFile"
                 Grid.Column="1"
-                Grid.Row="0">
+                Grid.Row="0"
+                Margin="2">
+            <Image Source="/save.png"
+                   MaxWidth="20px" />
+        </Button>
+
+        <Button x:Name="buttonAdd"
+                Command="ApplicationCommands.New"
+                Grid.Column="3"
+                Grid.Row="0"
+                Margin="2">
             <Button.ToolTip>
                 <ToolTip Content="При добавлении дело появится в списке слева, и его придется выполнить" />
             </Button.ToolTip>
             <Image Source="/images/add.png"
                    MaxWidth="20px" />
-
         </Button>
 
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
                       Margin="5"
-                      Grid.ColumnSpan="2"
+                      Grid.ColumnSpan="3"
                       Grid.Row="1">
             <ListBox x:Name="listToDo"
                      Background="#FDF5DF"
@@ -146,7 +163,7 @@
         </ScrollViewer>
 
         <ProgressBar x:Name="progressBar"
-                     Grid.ColumnSpan="2"
+                     Grid.ColumnSpan="3"
                      Grid.Row="2" />
 
         <TextBlock Grid.ColumnSpan="2"

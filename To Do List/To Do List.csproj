@@ -10,9 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="save.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="images\add.png" />
     <Resource Include="images\delete.png" />
     <Resource Include="images\icon.png" />
+    <Resource Include="save.png" />
   </ItemGroup>
 
 </Project>
