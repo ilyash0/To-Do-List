@@ -4,44 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace To_Do_List
+/*
+ * Автор: Илья Шмырёв
+ * Версия: 1.0
+ * Дата последнего изменения: 26.02.2025
+ * Назначение: Класс, описывающий задачу в списке дел.
+ */
+namespace ToDoListApp
 {
     public class ToDo
-    {
-        private string _name;
-        private DateTime _date;
-        private string _description;
-        private bool _doing;
-
-        public bool Doing
-        {
-            get => _doing;
-            set => _doing = value;
-        }
-        public string Name
-        {
-            get => _name;
-            set => _name = value;
-        }
-        public DateTime Date
-        {
-            get => _date;
-            set => _date = value;
-        }
-        public string Description
-        {
-            get => _description;
-            set => _description = value;
-        }
+    {   
+        public string Name { get; set; }
+        public DateTime Date { get; set; }
+        public string Description { get; set; }
+        public bool Doing { get; set; }
 
 
 
         public ToDo()
         {
-            _name = null;
-            _date = DateTime.Now;
-            _description = "Нет описания";
-            _doing = false;
+            Name = "";
+            Date = DateTime.Now;
+            Description = "Нет описания";
+            Doing = false;
         }
 
         public ToDo(string name, DateTime date, string description)

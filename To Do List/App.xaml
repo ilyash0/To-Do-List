@@ -1,7 +1,7 @@
-﻿<Application x:Class="To_Do_List.App"
+﻿<Application x:Class="ToDoListApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:To_Do_List"
+             xmlns:local="clr-namespace:ToDoListApp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <local:DateTimeLessDateConverter x:Key="LessDayConverter" />
@@ -15,17 +15,17 @@
                 <DataTrigger Binding="{Binding Path=Date, Converter={StaticResource LessDayConverter}}"
                              Value="True">
                     <Setter Property="TextBlock.Foreground"
-                            Value="#FF0000"></Setter>
+                            Value="#FF0000" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=Date, Converter={StaticResource NowDayConverter}}"
                              Value="True">
                     <Setter Property="TextBlock.Foreground"
-                            Value="#FFEA6A20"></Setter>
+                            Value="#FFEA6A20" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=Date, Converter={StaticResource UpOneDayConverter}}"
                              Value="True">
                     <Setter Property="TextBlock.Foreground"
-                            Value="#DAA520"></Setter>
+                            Value="#DAA520" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -128,9 +128,9 @@
                 <Trigger Property="Control.IsFocused"
                          Value="True">
                     <Setter Property="Background"
-                            Value="#FFFFFAD6"></Setter>
+                            Value="#FFFFFAD6" />
                     <Setter Property="BorderThickness"
-                            Value="2"></Setter>
+                            Value="2" />
                 </Trigger>
             </Style.Triggers>
         </Style>

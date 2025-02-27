@@ -3,6 +3,7 @@ using System.IO;
 using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,106 +14,124 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace To_Do_List
+/*
+ * Автор: Илья Шмырёв
+ * Версия: 1.0
+ * Дата последнего изменения: 26.02.2025
+ * Назначение: Основное окно приложения для списка дел
+ */
+namespace ToDoListApp
 {
     public partial class MainWindow : Window
     {
-        public List<ToDo> ToDoList = new();
-        private readonly string jsonFilePath;
+        public List<ToDo> ToDoItems { get; private set; } = new();
+        private readonly string _saveFilePath;
         public MainWindow()
         {
             InitializeComponent();
-            //listToDo.ItemsSource = ToDoList;
 
-            Loaded += MainWindow_Loaded;
-            Closed += MainWindow_Closed;
+            // Подписка на события загрузки и закрытия окна
+            Loaded += OnMainWindowLoaded;
+            Closed += OnMainWindowClosed;
 
+            // Создание директории для хранения файла, если она отсутствует
             string directory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Files");
-            if (!Directory.Exists(directory)) { Directory.CreateDirectory(directory); }
-            jsonFilePath = System.IO.Path.Combine(directory, "todo.json");
-
-            if (!File.Exists(jsonFilePath))
+            if (!Directory.Exists(directory))
             {
-                ToDoList.Add(new ToDo("Тест задача 1", new DateTime(1970, 1, 1), "Тест описание 1"));
-                ToDoList.Add(new ToDo("Тест задача 2", new DateTime(2025, 2, 19), "Тест описание 2"));
-                ToDoList.Add(new ToDo("Тест задача 3", new DateTime(2970, 1, 1), "Тест описание 3"));
+                Directory.CreateDirectory(directory);
+            }
+            _saveFilePath = System.IO.Path.Combine(directory, "todo.json");
+        }
+
+        private void OnMainWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            ToDoItems = DataManager.LoadFromJson(_saveFilePath);
+            UpdateUI();
+        }
+
+        private void OnMainWindowClosed(object? sender, EventArgs e)
+        {
+            DataManager.SaveToJson(ToDoItems, _saveFilePath);
+        }
+
+        private void OnCheckBoxDoingClick(object sender, RoutedEventArgs e)
+        {
+            UpdateUI();
+            DataManager.SaveToJson(ToDoItems, _saveFilePath);
+        }
+
+        private void OnButtonDeleteClick(object sender, RoutedEventArgs e)
+        {
+            if (((Button)sender).DataContext is ToDo toDo)
+            {
+                DeleteTodo(toDo);
             }
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void OnDeleteToDoExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            LoadFromJSON();
-            UpdateWindow();
+            if (listToDo.SelectedItem is ToDo toDo)
+            {
+                DeleteTodo(toDo);
+            }
+            else
+            {
+                MessageBox.Show("Не выбрана задача для удаления.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        private void MainWindow_Closed(object sender, EventArgs e)
+        private void OpenNewToDoWindow(object sender, ExecutedRoutedEventArgs e)
         {
-            SaveToJSON();
+            NewToDoWindow newToDoWindow = new() { Owner = this };
+            newToDoWindow.ShowDialog();
         }
 
-        internal void UpdateWindow()
+        internal void UpdateUI()
         {
             listToDo.ItemsSource = null;
-            listToDo.ItemsSource = ToDoList;
-            EndToDo();
-            SaveToJSON();
+            listToDo.ItemsSource = ToDoItems;
+            UpdateProgressBar();
         }
 
-        private void OpenAddTaskWindow(object sender, ExecutedRoutedEventArgs e)
+        internal void UpdateProgressBar()
         {
-            AddTaskWindow addTaskWindow = new() { Owner = this };
-            addTaskWindow.Show();
+            int totalCount = ToDoItems.Count;
+            int completedCount = ToDoItems.Count(toDo => toDo.Doing);
 
-            UpdateWindow();
+            progressBar.Value = completedCount;
+            progressBar.Maximum = totalCount;
+
+            textBlockProgressBar.Text = $"{completedCount}/{totalCount}";
         }
 
-        private void ButtonDelete_Click(object sender, RoutedEventArgs e)
+        private void DeleteTodo(ToDo toDo)
         {
-            DeleteTask(((Button)sender).DataContext as ToDo);
-        }
+            if (toDo == null)
+            {
+                MessageBox.Show("Задача не выбрана.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
-        private void DeleteTask_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            DeleteTask((ToDo)listToDo.SelectedItem);
-        }
-
-        private void DeleteTask(ToDo toDo)
-        {
             MessageBoxResult result = MessageBox.Show("Вы увверены, что хотите удалить дело?", "Удаление дела", MessageBoxButton.YesNo, MessageBoxImage.Information);
             if (result == MessageBoxResult.No)
             {
                 return;
             }
-            ToDoList.Remove(toDo);
+            ToDoItems.Remove(toDo);
 
-            UpdateWindow();
-        }
-
-        private void CheckBoxDoing_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateWindow();
-        }
-
-        internal void EndToDo()
-        {
-            int maxTask = ToDoList.Count;
-            int completeTask = ToDoList.Count(item => item.Doing);
-
-            progressBar.Value = completeTask;
-            progressBar.Maximum = maxTask;
-
-            textBlockProgressBar.Text = completeTask + "/" + maxTask;
+            UpdateUI();
+            DataManager.SaveToJson(ToDoItems, _saveFilePath);
         }
 
         private void SaveTxtFile(object sender, RoutedEventArgs e)
         {
-            if (ToDoList.Count < 1)
+            if (ToDoItems.Count < 1)
             {
                 MessageBoxResult result = MessageBox.Show("В списке нет дел", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            SaveFileDialog saveFile = new()
+            SaveFileDialog saveFileDialog = new()
             {
                 Filter = "Text File (*.txt) | *.txt",
                 OverwritePrompt = true,
@@ -120,43 +139,21 @@ namespace To_Do_List
                 Title = "Сохранить файл"
             };
 
-            StringBuilder stringBuilder = new();
-            foreach (ToDo item in ToDoList)
+            if (saveFileDialog.ShowDialog() == true)
             {
-                stringBuilder.Append(item.Doing == true ? "✓" : " ");
-                stringBuilder.AppendLine(item.Name);
-                stringBuilder.AppendLine("");
-                stringBuilder.AppendLine(item.Description);
-                stringBuilder.AppendLine("");
-                stringBuilder.AppendLine(Convert.ToString(item.Date));
-                stringBuilder.AppendLine("");
-                stringBuilder.AppendLine("");
-            }
-            saveFile.ShowDialog();
-            string path = saveFile.FileName;
-
-            File.WriteAllText(path, Convert.ToString(stringBuilder));
-        }
-
-        private void SaveToJSON()
-        {
-            JsonSerializerOptions options = new() { WriteIndented = true };
-            FileStream stream = new(jsonFilePath, FileMode.Create);
-            JsonSerializer.Serialize(stream, ToDoList, options);
-            stream.Close();
-        }
-
-        private void LoadFromJSON()
-        {
-            if (File.Exists(jsonFilePath))
-            {
-                FileStream stream = new(jsonFilePath, FileMode.Open);
-                List<ToDo>? loadedList = JsonSerializer.Deserialize<List<ToDo>>(stream);
-                stream.Close();
-                if (loadedList != null)
+                StringBuilder sb = new();
+                foreach (ToDo toDo in ToDoItems)
                 {
-                    ToDoList = loadedList;
+                    sb.Append(toDo.Doing ? "✓ " : "  ");
+                    sb.AppendLine(toDo.Name);
+                    sb.AppendLine();
+                    sb.AppendLine(toDo.Description);
+                    sb.AppendLine();
+                    sb.AppendLine(toDo.Date.ToString());
+                    sb.AppendLine();
+                    sb.AppendLine();
                 }
+                File.WriteAllText(saveFileDialog.FileName, sb.ToString());
             }
         }
     }
